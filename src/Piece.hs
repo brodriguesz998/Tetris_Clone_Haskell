@@ -68,17 +68,14 @@ rotationDec Deg270  = Deg180
 --T180deg = Grid[[Filled,Empty],[Filled,Filled],[Filled,Empty]]
 --T270deg = Grid[[Empty,Filled,Empty],[Filled,Filled,Filled]]
 
-aux2 :: [CellState] -> [[CellState]]
-aux2 [] = []
-aux2 (x:xs) = [[x]] ++ aux2 xs 
 
 rotateAuxR :: Piece  -> Grid
 rotateAuxR origPiece = Grid $ reverse $ aux1 $ getMatrix $ getGrid $ origPiece 
     where
         aux1 :: [[CellState]] -> [[CellState]]
         aux1[] = [] --erro, nunca deeveria acontecer, pode ser ponto de mlhora no futuro, fazer um tipo erro e etc
-        aux1 [lastLine] = aux2 lastLine
-        aux1 (firstL : otherL) = zipWith (++) (aux2 firstL) (aux1 otherL)  
+        aux1 [lastLine] = foldr (\x -> (++) [[x]]) [] lastLine
+        aux1 (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (aux1 otherL)  
     
 rotatePiece :: Piece -> Piece
 rotatePiece origPiece = Piece {

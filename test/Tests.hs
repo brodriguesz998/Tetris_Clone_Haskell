@@ -9,7 +9,7 @@ aux2 (x:xs) = [[x]] ++ aux2 xs
 gridTrue :: [[CellState]] -> [[CellState]]
 gridTrue [] = [] --erro, nunca deeveria acontecer, pode ser ponto de mlhora no futuro, fazer um tipo erro e etc
 gridTrue [lastLine] = aux2 lastLine
-gridTrue (firstL : otherL) = zipWith (++) (aux2 firstL) (gridTrue otherL)  
+gridTrue (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (gridTrue otherL)  
 
 
 trueReverse :: [[CellState]] -> [[CellState]]
@@ -21,6 +21,9 @@ main = do
     let test2 = [[Filled,Filled,Filled],[Empty,Empty,Filled]]
     let test3 = [[Filled,Filled],[Filled,Empty],[Filled,Empty]]
     let test4 = [[Filled,Empty,Empty],[Filled,Filled,Filled]]
+    let test5 = [Empty,Filled,Empty]
+    -- print $ foldr (\x -> (++) [[x]]) [] test5      
+    -- print $ aux2 test5
     print $ trueReverse test1
     print $ trueReverse test2
     print $ trueReverse test3
