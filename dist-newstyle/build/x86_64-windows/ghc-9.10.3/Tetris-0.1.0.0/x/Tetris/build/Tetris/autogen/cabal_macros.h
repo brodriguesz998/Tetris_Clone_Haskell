@@ -10,6 +10,16 @@
   (major1) == 0 && (major2) <  1 || \
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 #endif /* MIN_VERSION_Tetris */
+/* package Tetris-0.1.0.0 */
+#ifndef VERSION_Tetris
+#define VERSION_Tetris "0.1.0.0"
+#endif /* VERSION_Tetris */
+#ifndef MIN_VERSION_Tetris
+#define MIN_VERSION_Tetris(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 0)
+#endif /* MIN_VERSION_Tetris */
 /* package base-4.20.2.0 */
 #ifndef VERSION_base
 #define VERSION_base "4.20.2.0"

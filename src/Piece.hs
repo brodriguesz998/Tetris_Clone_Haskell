@@ -1,13 +1,8 @@
 module Piece where
+import Types 
 
-newtype Position = Position (Int, Int)
 data Rotation =  Deg0 | Deg90 | Deg180 | Deg270 
-data CellState = Filled | Empty --por enquanto é só um Bool mas talvez eu expanda a lógica então estou criando essa estrutura
-
-data Grid = Grid [[CellState]] 
-
-data PieceKind = O|B|C|R|S|T|H 
-
+data PieceKind = O|J|L|Z|S|T|I 
 data Piece = Piece {
     getKind :: PieceKind,
     getRotation :: Rotation,
@@ -17,29 +12,31 @@ data Piece = Piece {
     getWidth :: Int
 }
 
-getMatrix :: Grid -> [[CellState]]
-getMatrix (Grid matrix) = matrix 
+getGridSize :: Piece -> Int
+getGridSize pc = case (getKind pc) of
+                O -> 2
+                I -> 4
+                _ ->3
 
 setHeight :: PieceKind -> Int
-setHeight H = 1
+setHeight I = 1
 setHeight _ = 2
 
 setWidth :: PieceKind -> Int
-setWidth S = 2
+setWidth O = 2
+setWidth I = 4
 setWidth _ = 3
 
+--nós iremos modelar cada peça em um grid 3x3 e a peça Hero em um grid 4x4, isso é para que tenhamos um ponto de pivo para a rotação centrado, para que a mudança de posição seja feita.
+--All tetrominoes spawn horizontally, fully above the playfield.
 usedSpace :: PieceKind -> Grid
-usedSpace O = Grid[[Empty, Filled],[Empty, Filled],[Empty, Filled],[Filled, Filled]]
-usedSpace B = Grid[[Filled , Filled],[Empty, Filled],[Empty, Filled],[Empty, Filled]]
-usedSpace C = Grid[[Filled, Empty],[Filled, Filled],[Empty, Filled]]
-usedSpace R = Grid[[Empty, Filled],[Filled, Filled],[Filled, Empty]]
-usedSpace S = Grid[[Filled, Filled],[Filled, Filled]]
-usedSpace T = Grid[[Empty, Filled],[Filled, Filled], [Empty,Filled]]
-usedSpace H = Grid[[Empty, Filled],[Empty, Filled], [Empty,Filled], [Empty, Filled]]
-
-changeCellState :: CellState -> CellState --por enquanto é só um not lógico mas pode ser que haja mais lógica depois
-changeCellState Filled = Empty
-changeCellState Empty = Filled
+usedSpace O = Grid[[Filled,Filled],[Filled,Filled]]
+usedSpace J = Grid[[Filled,Empty,Empty],[Filled,Filled,Filled],[Empty,Empty,Empty]]
+usedSpace L = Grid[[Empty,Empty,Filled],[Filled,Filled,Filled],[Empty,Empty,Empty]]
+usedSpace I = Grid[[Empty,Empty,Empty,Empty],[Filled,Filled,Filled,Filled],[Empty,Empty,Empty,Empty],[Empty,Empty,Empty,Empty]]
+usedSpace S = Grid[[Empty,Filled,Filled],[Filled,Filled,Empty],[Empty,Empty,Empty]]
+usedSpace Z = Grid[[Filled,Filled,Empty],[Empty,Filled,Filled],[Empty,Empty,Empty]]
+usedSpace T = Grid[[Empty,Filled,Empty],[Filled,Filled,Filled],[Empty,Empty,Empty]]
 
 isRotationVertical :: Rotation -> Bool
 isRotationVertical Deg0 = False
@@ -76,13 +73,11 @@ rotateAuxR origPiece = Grid $ reverse $ aux1 $ getMatrix $ getGrid $ origPiece
         aux1[] = [] --erro, nunca deeveria acontecer, pode ser ponto de mlhora no futuro, fazer um tipo erro e etc
         aux1 [lastLine] = foldr (\x -> (++) [[x]]) [] lastLine
         aux1 (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (aux1 otherL)  
-    
+
 rotatePiece :: Piece -> Piece
-rotatePiece origPiece = Piece {
-    getKind = getKind origPiece,
+rotatePiece origPiece = origPiece {
     getRotation =  rotationInc (getRotation origPiece),
-    getPosition = getPosition origPiece,
     getGrid = rotateAuxR origPiece,
     getHeight = getWidth origPiece,  
-    getWidth = getHeight origPiece   
+    getWidth = getHeight origPiece 
 }
