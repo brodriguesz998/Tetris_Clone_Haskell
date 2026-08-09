@@ -25,9 +25,10 @@ library
         Input
         Update
         Render
-        RandomPiece
 
-    build-depends:    base ^>=4.20.2.0
+    build-depends:
+        base ^>=4.20.2.0,
+        random
 
     hs-source-dirs:   src
 

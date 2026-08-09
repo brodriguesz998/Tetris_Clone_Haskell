@@ -34,7 +34,7 @@ iPieceDeg0 = Piece
     }
 
 iPieceDeg90 :: Piece
-iPieceDeg90 = rotatePiece iPieceDeg0
+iPieceDeg90 = rotatePieceR iPieceDeg0
 
 
 -- ===== Peça 2: O-piece encostada na pilha (deveria estar obstruída, não pela parede) =====
@@ -51,6 +51,36 @@ oPieceNextToStack = Piece
     , getWidth    = 2
     }
 
+oPieceBetween :: Piece
+oPieceBetween = Piece
+    { getKind     = O
+    , getRotation = Deg0
+    , getPosition = Position { getHeightPos = 8, getWidthPos = 8}
+    , getGrid     = usedSpace O
+    , getHeight   = 2
+    , getWidth    = 2
+    }
+
+oPieceBetween2 :: Piece
+oPieceBetween2 = Piece
+    { getKind     = O
+    , getRotation = Deg0
+    , getPosition = Position { getHeightPos = 9, getWidthPos = 8}
+    , getGrid     = usedSpace O
+    , getHeight   = 2
+    , getWidth    = 2
+    }
+
+oPieceBetween3 :: Piece
+oPieceBetween3 = Piece
+    { getKind     = O
+    , getRotation = Deg0
+    , getPosition = Position { getHeightPos = 7, getWidthPos = 8}
+    , getGrid     = usedSpace O
+    , getHeight   = 2
+    , getWidth    = 2
+    }
+
 oPieceOpenSpace :: Piece
 oPieceOpenSpace = Piece
     { getKind     = O
@@ -60,6 +90,7 @@ oPieceOpenSpace = Piece
     , getHeight   = 2
     , getWidth    = 2
     }
+    
 
 rotateAuxTest :: Grid  -> Grid
 rotateAuxTest origGrid = Grid $ reverse $ aux1 $ getMatrix $ origGrid
@@ -101,6 +132,20 @@ main = do
     print (canMoveRight oPieceOpenSpace testBoard)
     putStrLn "esperado: True (nada bloqueando, pode mover)"
 
+    putStrLn "\n--- Teste 5: O-piece bloqueado pela esquerda por uma peça e pela direita por uma parede ---"
+    print (canMoveRight oPieceBetween testBoard)
+    print (canMoveLeft oPieceBetween testBoard)
+    putStrLn "esperado: False False (Bloqueado dos dois lados)"
+    
+    putStrLn "\n--- Teste 6: O-piece bloqueado pela esquerda por uma peça e pela direita por uma parede ---"
+    print (canMoveRight oPieceBetween2 testBoard)
+    print (canMoveLeft oPieceBetween2 testBoard)
+    putStrLn "esperado: False True (O está diretamente abaixo da peça)"
+
+    putStrLn "\n--- Teste 7: O-piece bloqueado pela esquerda por uma peça e pela direita por uma parede ---"
+    print (canMoveRight oPieceBetween3 testBoard)
+    print (canMoveLeft oPieceBetween3 testBoard)
+    putStrLn "esperado: False True (Linha de baixo ainda bloqueada pela peça)"
 
 
 

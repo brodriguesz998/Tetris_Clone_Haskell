@@ -1,8 +1,11 @@
 module Piece where
 import Types 
+import System.Random (StdGen, randomR)
+
 
 data Rotation =  Deg0 | Deg90 | Deg180 | Deg270 
-data PieceKind = O|J|L|Z|S|T|I 
+data PieceKind = O | J | L | I | S | Z | T
+    deriving (Show, Eq, Enum, Bounded)
 data Piece = Piece {
     getKind :: PieceKind,
     getRotation :: Rotation,
@@ -74,10 +77,15 @@ rotateAuxR origPiece = Grid $ reverse $ aux1 $ getMatrix $ getGrid $ origPiece
         aux1 [lastLine] = foldr (\x -> (++) [[x]]) [] lastLine
         aux1 (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (aux1 otherL)  
 
-rotatePiece :: Piece -> Piece
-rotatePiece origPiece = origPiece {
+rotatePieceR :: Piece -> Piece
+rotatePieceR origPiece = origPiece {
     getRotation =  rotationInc (getRotation origPiece),
     getGrid = rotateAuxR origPiece,
     getHeight = getWidth origPiece,  
     getWidth = getHeight origPiece 
 }
+
+randomPieceKindPure :: StdGen -> (PieceKind, StdGen)
+randomPieceKindPure gen =
+    let (n, newGen) = randomR (fromEnum (minBound :: PieceKind), fromEnum (maxBound :: PieceKind)) gen
+    in (toEnum n, newGen)

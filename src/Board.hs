@@ -1,10 +1,16 @@
 module Board where
 import Types
+import Piece
+import Game
+import System.Random(StdGen)
 
 data GameBoard = GameBoard {getBoardHeight :: Int,
                             getBoardTotalHeight :: Int,
                             getBoardWidth :: Int,
-                            getBoardGrid :: Grid}
+                            getBoardGrid :: Grid,
+                            getCurrentPiece :: Piece,
+                            getGameStatus:: GameStatus,
+                            getRandomGen :: StdGen}
 
 --espera posições absolutas do tabuleiro
 accessPosInBoard :: GameBoard -> Position -> CellState
@@ -17,5 +23,4 @@ accessPosInBoard origBoard origPos =
                   && (getHeightPos origPos >= 0) 
                   && (getWidthPos origPos <= getBoardWidth origBoard - 1) 
                   && (getWidthPos origPos >= 0)
-foo :: Int
-foo = soma1 10
+
