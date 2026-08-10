@@ -30,6 +30,36 @@
   (major1) == 4 && (major2) <  20 || \
   (major1) == 4 && (major2) == 20 && (minor) <= 2)
 #endif /* MIN_VERSION_base */
+/* package brick-2.12 */
+#ifndef VERSION_brick
+#define VERSION_brick "2.12"
+#endif /* VERSION_brick */
+#ifndef MIN_VERSION_brick
+#define MIN_VERSION_brick(major1,major2,minor) (\
+  (major1) <  2 || \
+  (major1) == 2 && (major2) <  12 || \
+  (major1) == 2 && (major2) == 12 && (minor) <= 0)
+#endif /* MIN_VERSION_brick */
+/* package random-1.3.1 */
+#ifndef VERSION_random
+#define VERSION_random "1.3.1"
+#endif /* VERSION_random */
+#ifndef MIN_VERSION_random
+#define MIN_VERSION_random(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  3 || \
+  (major1) == 1 && (major2) == 3 && (minor) <= 1)
+#endif /* MIN_VERSION_random */
+/* package vty-6.6 */
+#ifndef VERSION_vty
+#define VERSION_vty "6.6"
+#endif /* VERSION_vty */
+#ifndef MIN_VERSION_vty
+#define MIN_VERSION_vty(major1,major2,minor) (\
+  (major1) <  6 || \
+  (major1) == 6 && (major2) <  6 || \
+  (major1) == 6 && (major2) == 6 && (minor) <= 0)
+#endif /* MIN_VERSION_vty */
 
 /* tool gcc-14.0.6 */
 #ifndef TOOL_VERSION_gcc

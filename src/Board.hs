@@ -12,6 +12,22 @@ data GameBoard = GameBoard {getBoardHeight :: Int,
                             getGameStatus:: GameStatus,
                             getRandomGen :: StdGen}
 
+newGameBoard :: StdGen -> GameBoard
+newGameBoard gen = GameBoard
+    { getBoardHeight = 20
+    , getBoardTotalHeight = 24
+    , getBoardWidth = 10
+    , getBoardGrid = Grid (replicate 24 (replicate 10 Empty))
+    , getCurrentPiece = Piece
+        { getKind = I
+        , getRotation = Deg0
+        , getPosition = Position 3 3
+        , getGrid = usedSpace I
+        }
+    , getGameStatus = Playing
+    , getRandomGen = gen
+    }
+
 --espera posições absolutas do tabuleiro
 accessPosInBoard :: GameBoard -> Position -> CellState
 accessPosInBoard origBoard origPos =
@@ -19,9 +35,9 @@ accessPosInBoard origBoard origPos =
         then accessPosInGrid (getBoardGrid origBoard) origPos
         else OutOfBounds
     where
-        checkValid = (getHeightPos origPos <= getBoardHeight origBoard - 1) 
-                  && (getHeightPos origPos >= 0) 
-                  && (getWidthPos origPos <= getBoardWidth origBoard - 1) 
+        checkValid = (getHeightPos origPos <= getBoardTotalHeight origBoard - 1)
+                  && (getHeightPos origPos >= 0)
+                  && (getWidthPos origPos <= getBoardWidth origBoard - 1)
                   && (getWidthPos origPos >= 0)
 
 --performance terrível
@@ -43,9 +59,9 @@ changePosInBoard origBoard origPos origState =
             if colIdx == targetCol
                 then origState
                 else cell
-        checkValid = (getHeightPos origPos <= getBoardHeight origBoard - 1) 
-                  && (getHeightPos origPos >= 0) 
-                  && (getWidthPos origPos <= getBoardWidth origBoard - 1) 
+        checkValid = (getHeightPos origPos <= getBoardTotalHeight origBoard - 1)
+                  && (getHeightPos origPos >= 0)
+                  && (getWidthPos origPos <= getBoardWidth origBoard - 1)
                   && (getWidthPos origPos >= 0)
 
 filledCellsWithOffsets :: Piece -> [(Int, Int)]

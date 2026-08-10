@@ -1,34 +1,26 @@
 module Piece where
-import Types 
+import Types
 import System.Random (StdGen, randomR)
 
 
-data Rotation =  Deg0 | Deg90 | Deg180 | Deg270 
+data Rotation =  Deg0 | Deg90 | Deg180 | Deg270
+    deriving (Show, Eq)
 data PieceKind = O | J | L | I | S | Z | T
     deriving (Show, Eq, Enum, Bounded)
 data Piece = Piece {
     getKind :: PieceKind,
     getRotation :: Rotation,
     getPosition :: Position,
-    getGrid :: Grid,
-    getHeight :: Int,
-    getWidth :: Int
+    getGrid :: Grid
 }
 
 getGridSize :: Piece -> Int
-getGridSize pc = case (getKind pc) of
-                O -> 2
-                I -> 4
-                _ ->3
+getGridSize = pieceSize . getKind
 
-setHeight :: PieceKind -> Int
-setHeight I = 1
-setHeight _ = 2
-
-setWidth :: PieceKind -> Int
-setWidth O = 2
-setWidth I = 4
-setWidth _ = 3
+pieceSize :: PieceKind -> Int
+pieceSize O = 2
+pieceSize I = 4
+pieceSize _ = 3
 
 --nós iremos modelar cada peça em um grid 3x3 e a peça Hero em um grid 4x4, isso é para que tenhamos um ponto de pivo para a rotação centrado, para que a mudança de posição seja feita.
 --All tetrominoes spawn horizontally, fully above the playfield.
@@ -63,6 +55,19 @@ randomPieceKindPure gen =
     in (toEnum n, newGen)
 
 fixPiece :: Piece -> Piece
-fixPiece origPiece = 
+fixPiece origPiece =
     origPiece{getGrid = Grid $ map (\list -> map (\cell -> if cell == Filled then Fixed else cell) list) (getMatrix $ getGrid origPiece)}
- 
+
+rotateAuxR :: Piece  -> Grid
+rotateAuxR origPiece = Grid $ reverse $ aux1 $ getMatrix $ getGrid $ origPiece
+    where
+        aux1 :: [[CellState]] -> [[CellState]]
+        aux1[] = [] --erro, nunca deeveria acontecer, pode ser ponto de mlhora no futuro, fazer um tipo erro e etc
+        aux1 [lastLine] = foldr (\x -> (++) [[x]]) [] lastLine
+        aux1 (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (aux1 otherL)
+
+rotatePieceR :: Piece -> Piece
+rotatePieceR origPiece = origPiece {
+    getRotation =  rotationInc (getRotation origPiece),
+    getGrid = rotateAuxR origPiece
+}

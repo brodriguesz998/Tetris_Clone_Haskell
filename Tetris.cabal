@@ -28,7 +28,9 @@ library
 
     build-depends:
         base ^>=4.20.2.0,
-        random
+        random,
+        brick,
+        vty
 
     hs-source-dirs:   src
 
@@ -37,11 +39,16 @@ library
 executable Tetris
     import:           warnings
 
+    ghc-options:      -threaded
+
     main-is:          Main.hs
 
     build-depends:
         base ^>=4.20.2.0,
-        Tetris
+        Tetris,
+        brick,
+        vty,
+        random
 
     hs-source-dirs:   app
 
@@ -54,7 +61,8 @@ executable tests
 
     build-depends:
         base ^>=4.20.2.0,
-        Tetris
+        Tetris,
+        random
 
     hs-source-dirs:   test
 
