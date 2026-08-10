@@ -52,4 +52,5 @@ handleEvent event = case event of
         Just MoveLeft -> modify movePieceLeft
         Just MoveRight -> modify movePieceRight
         Just Rotate -> modify rotatePieceInBoard
+        Just SoftDrop -> modify movePieceDown
     _ -> pure ()

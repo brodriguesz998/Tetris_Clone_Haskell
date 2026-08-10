@@ -26,5 +26,5 @@ changeCellState Fixed = Fixed
 getMatrix :: Grid -> [[CellState]]
 getMatrix (Grid matrix) = matrix 
 
-accessPosInGrid :: Grid -> Position -> CellState --função parcial unsafe, ela será usada como parte de outras funções que fazem a checagem
+accessPosInGrid :: Grid -> Position -> CellState 
 accessPosInGrid (Grid matrix) origPos = (matrix !! getHeightPos origPos) !! getWidthPos origPos

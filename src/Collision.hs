@@ -5,8 +5,6 @@ import Types
 import Data.List (find)
 import Data.Maybe (fromMaybe)
 
---aqui eu vou lidar com tudo referente a mudança de posição da peça no tabuleiro, verificar se a peça encostou no chao ou se o jogador perdeu
---accessPosInBoard espera coordenadas absolutas do tabuleiro e filledLinesOfaColumn e rightmostFilledColumn retornam coordenadas relativas da peça
 
 canMoveDown :: Piece -> GameBoard -> Bool
 canMoveDown origPiece origBoard = 

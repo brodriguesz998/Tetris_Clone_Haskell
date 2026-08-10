@@ -5,8 +5,7 @@ import Board
 import Piece
 import Game
 
---devido a natureza do haskell de não ter efeitos colaterais, a função gameover é apenas uma flag, ela não pode acabar o jogo,
---então eu tenho que ter a cautela de executar a função de dar game over logo depois de que a função movePieceDown for executada infelizmente
+
 movePieceDown :: GameBoard -> GameBoard
 movePieceDown origBoard
     | getGameStatus origBoard == GameOver = origBoard
@@ -26,13 +25,6 @@ fixCurPiece origBoard =
     in case checkGameOver clearedGameBoard of
         True  -> clearedGameBoard { getGameStatus = GameOver }
         False -> spawnNewPiece clearedGameBoard
-
--- essa função por design não vai escolher uma nova peça, apenas fixar a atual, isso pode ser perigoso então use com cautela
--- ou seja, toda vez que for usar ela e voce sabe que o jogo não for acabar, tenha certeza de criar uma nova peça atual, pois por
--- design não se pode mover uma peça fixada
-
---primeiro transformar todo Filled do grid do field peça atual do board em Fixed
---depois de fato inserir o grid da peça na matriz do board no lugar correto
 
 fixPieceInBoard :: GameBoard -> GameBoard
 fixPieceInBoard origBoard = insertPieceInBoard origBoard (fixPiece $ getCurrentPiece origBoard)

@@ -10,16 +10,18 @@ data InputAction
     = MoveLeft
     | MoveRight
     | Rotate
+    | SoftDrop
     | Quit
     deriving (Eq, Show)
 
--- | Translate only the controls the game supports.  There is deliberately no
--- downward movement key: falling is exclusively controlled by gravity ticks.
+-- | Holding S or Down produces repeated terminal key events, which gives the
+-- game its soft-drop behavior.
 inputAction :: Event -> Maybe InputAction
 inputAction event = case event of
     EvKey KLeft []  -> Just MoveLeft
     EvKey KRight [] -> Just MoveRight
     EvKey KUp []    -> Just Rotate
+    EvKey KDown []  -> Just SoftDrop
     EvKey KEsc []   -> Just Quit
     EvKey (KChar key) _ -> charAction (toLower key)
     _ -> Nothing
@@ -27,5 +29,6 @@ inputAction event = case event of
     charAction 'a' = Just MoveLeft
     charAction 'd' = Just MoveRight
     charAction 'w' = Just Rotate
+    charAction 's' = Just SoftDrop
     charAction 'q' = Just Quit
     charAction _   = Nothing

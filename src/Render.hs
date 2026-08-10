@@ -14,7 +14,7 @@ drawGame board =
         vBox
             [ Border.borderWithLabel (str " TETRIS ") (vBox boardRows)
             , padTop (Pad 1) (str (statusText board))
-            , str "A/Left: move   D/Right: move   W/Up: rotate   Q/Esc: quit"
+            , str "A/Left: move   D/Right: move   W/Up: rotate   S/Down: soft drop   Q/Esc: quit"
             ]
     ]
   where

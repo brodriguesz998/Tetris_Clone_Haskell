@@ -22,8 +22,6 @@ pieceSize O = 2
 pieceSize I = 4
 pieceSize _ = 3
 
---nós iremos modelar cada peça em um grid 3x3 e a peça Hero em um grid 4x4, isso é para que tenhamos um ponto de pivo para a rotação centrado, para que a mudança de posição seja feita.
---All tetrominoes spawn horizontally, fully above the playfield.
 usedSpace :: PieceKind -> Grid
 usedSpace O = Grid[[Filled,Filled],[Filled,Filled]]
 usedSpace J = Grid[[Filled,Empty,Empty],[Filled,Filled,Filled],[Empty,Empty,Empty]]
