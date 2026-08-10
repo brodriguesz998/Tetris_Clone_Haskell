@@ -57,35 +57,12 @@ rotationDec Deg90  = Deg0
 rotationDec Deg180  = Deg90
 rotationDec Deg270  = Deg180
 
--- vamos tentar generalizar a operação de rotação de uma peça representada por um grid
--- O0deg = Grid[[Empty,Filled],[Empty,Filled],[Filled,Filled]] 
--- O90deg = Grid[[Filled,Filled,Filled],[Empty,Empty,Filled]]
--- O180deg = Grid[[Filled,Filled],[Filled,Empty],[Filled,Empty]]
--- O270deg = Grid[[Filled,Empty,Empty],[Filled,Filled,Filled]]
-
---T0deg = Grid[[Empty,Filled],[Filled,Filled],[Empty,Filled]]
---T90deg = Grid[[Filled,Filled,Filled],[Empty,Filled,Empty]]
---T180deg = Grid[[Filled,Empty],[Filled,Filled],[Filled,Empty]]
---T270deg = Grid[[Empty,Filled,Empty],[Filled,Filled,Filled]]
-
-
-rotateAuxR :: Piece  -> Grid
-rotateAuxR origPiece = Grid $ reverse $ aux1 $ getMatrix $ getGrid $ origPiece 
-    where
-        aux1 :: [[CellState]] -> [[CellState]]
-        aux1[] = [] --erro, nunca deeveria acontecer, pode ser ponto de mlhora no futuro, fazer um tipo erro e etc
-        aux1 [lastLine] = foldr (\x -> (++) [[x]]) [] lastLine
-        aux1 (firstL : otherL) = zipWith (++) (foldr (\x -> (++) [[x]]) [] firstL) (aux1 otherL)  
-
-rotatePieceR :: Piece -> Piece
-rotatePieceR origPiece = origPiece {
-    getRotation =  rotationInc (getRotation origPiece),
-    getGrid = rotateAuxR origPiece,
-    getHeight = getWidth origPiece,  
-    getWidth = getHeight origPiece 
-}
-
 randomPieceKindPure :: StdGen -> (PieceKind, StdGen)
 randomPieceKindPure gen =
     let (n, newGen) = randomR (fromEnum (minBound :: PieceKind), fromEnum (maxBound :: PieceKind)) gen
     in (toEnum n, newGen)
+
+fixPiece :: Piece -> Piece
+fixPiece origPiece = 
+    origPiece{getGrid = Grid $ map (\list -> map (\cell -> if cell == Filled then Fixed else cell) list) (getMatrix $ getGrid origPiece)}
+ 

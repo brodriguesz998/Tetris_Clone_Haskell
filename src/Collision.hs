@@ -98,3 +98,15 @@ checkWallCollisionLeft :: Piece -> Bool
 checkWallCollisionLeft origPiece = 
     (getWidthPos $ getPosition $ origPiece) + leftMostFilledColumn origPiece - 1 < 0
 
+
+checkIfPieceLegal :: GameBoard -> Piece -> Bool
+checkIfPieceLegal origBoard origPiece = 
+    not (any isOccupied absolutePositions)
+    where
+        pieceHeight = getHeightPos (getPosition origPiece)
+        pieceWidth  = getWidthPos (getPosition origPiece)
+        absolutePositions = 
+            [ Position { getHeightPos = pieceHeight + lineIdx, getWidthPos = pieceWidth + colIdx }
+            | (lineIdx, colIdx) <- filledCellsWithOffsets origPiece
+            ]
+        isOccupied pos = accessPosInBoard origBoard pos /= Empty

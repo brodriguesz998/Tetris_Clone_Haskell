@@ -147,6 +147,8 @@ main = do
     print (canMoveLeft oPieceBetween3 testBoard)
     putStrLn "esperado: False True (Linha de baixo ainda bloqueada pela peça)"
 
+    print (getGrid $ fixPiece $ iPieceDeg0)
+    print (getGrid $ fixPiece $ iPieceDeg90)
 
 
 
