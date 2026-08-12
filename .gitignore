@@ -1,0 +1,28 @@
+# Cabal
+dist-newstyle/
+dist/
+cabal.project.local
+cabal.project.local~
+.ghc.environment.*
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+
+# Stack (caso venha a usar no futuro)
+.stack-work/
+
+# GHCup / GHC
+.ghcup/
+
+# HLS
+.hls/
+
+# Editor / IDE
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
