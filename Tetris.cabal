@@ -15,7 +15,6 @@ common warnings
 
 library
     import:           warnings
-
     exposed-modules:
         Types
         Game
@@ -25,45 +24,33 @@ library
         Input
         Update
         Render
-
     build-depends:
-        base ^>=4.20.2.0,
+        base >=4.14 && <5,
         random,
         brick,
         vty
-
     hs-source-dirs:   src
-
     default-language: Haskell2010
 
 executable Tetris
     import:           warnings
-
     ghc-options:      -threaded
-
     main-is:          Main.hs
-
     build-depends:
-        base ^>=4.20.2.0,
+        base >=4.14 && <5,
         Tetris,
         brick,
         vty,
         random
-
     hs-source-dirs:   app
-
     default-language: Haskell2010
 
 executable tests
     import:           warnings
-
     main-is:          Tests.hs
-
     build-depends:
-        base ^>=4.20.2.0,
+        base >=4.14 && <5,
         Tetris,
         random
-
     hs-source-dirs:   test
-
     default-language: Haskell2010
